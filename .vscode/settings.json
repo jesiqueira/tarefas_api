@@ -1,0 +1,10 @@
+// .vscode/settings.json
+{
+  // Define o Prettier como o formatador padrão para JavaScript e outros arquivos
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  // Executa o ESLint --fix e o Prettier ao salvar
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  }
+}

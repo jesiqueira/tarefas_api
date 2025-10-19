@@ -27,17 +27,25 @@ export default [
       ecmaVersion: 'latest',
       sourceType: 'module',
     },
-
     rules: {
-      // ✅ Solução para a dependência 'globals'
+      // AJUSTES DE DEPENDÊNCIAS
       'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
 
-      // AJUSTES COMUNS PARA NODE/API
-      'import/prefer-default-export': 'off',
-      'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-      'no-console': 'warn',
+      // [1] Regras de Airbnb Desativadas/Relaxadas (Comum em APIs)
+      'class-methods-use-this': 'off',
+      'no-param-reassign': 'off',
+      'import/prefer-default-export': 'off', // Manteve esta
 
-      // Permite 'for...of' (regra do Airbnb)
+      // [2] Regra de Nomenclatura (Permite snake_case)
+      camelcase: 'off',
+
+      // [3] Regra de Variáveis Não Usadas (Ignora 'next' e '_' - Padrão para Middlewares)
+      'no-unused-vars': ['error', { argsIgnorePattern: '^(next|_)$' }],
+
+      // [4] Regra de Console (Mais restritiva que 'warn', mas permite alguns métodos)
+      'no-console': ['error', { allow: ['warn', 'error', 'log'] }],
+
+      // [5] Regra 'no-restricted-syntax' (Permite for...of, etc.)
       'no-restricted-syntax': [
         'error',
         {
@@ -45,15 +53,10 @@ export default [
           message:
             'for..in loops iterate over the entire prototype chain, which is almost never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array.',
         },
-        {
-          selector: 'LabeledStatement',
-          message: 'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.',
-        },
-        {
-          selector: 'WithStatement',
-          message: '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.',
-        },
+        { selector: 'LabeledStatement', message: 'Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand.' },
+        { selector: 'WithStatement', message: '`with` is disallowed in strict mode because it makes code impossible to predict and optimize.' },
       ],
+      // FIM DOS AJUSTES PESSOAIS
     },
   },
 

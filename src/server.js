@@ -1,3 +1,5 @@
+// src/server.js
+
 // 1. Variáveis de Ambiente e Configuração
 import 'dotenv/config'
 
@@ -5,10 +7,11 @@ import 'dotenv/config'
 import app from './app.js'
 
 // 3. Importa o Banco de Dados e as Associações
-// Importa a instância Sequelize como 'connection' (default export)
-// e a função 'connectDatabase' (named export) de src/config/connect.js
-import connection, { connectDatabase } from './config/connect.js'
-// import './models/associations' // Garante que as associações sejam carregadas
+import { connectDatabase } from './config/connect.js'
+// Importa o NOVO index.js (que inicializa Models e exporta a função de setup)
+import { setupAssociations } from './models/index.js'
+
+// Os imports diretos dos models foram removidos, pois o index.js já os importa/inicializa.
 
 const PORT = process.env.PORT || 3000
 
@@ -17,28 +20,20 @@ const PORT = process.env.PORT || 3000
  */
 async function initializeApp() {
   try {
-    // 1. Conectar e testar o DB (usando sua função de connect.js)
-    // O console.log('Conectando...') já está dentro da função connectDatabase,
-    // mas mantive a chamada para clareza.
+    // 1. Conectar e testar o DB
     await connectDatabase()
-    console.log('✅ Conexão com o banco de dados estabelecida com sucesso.')
+    // console.log('✅ Conexão com o banco de dados estabelecida com sucesso.')
 
-    // 2. Sincronizar os Modelos com o DB
-    if (process.env.NODE_ENV === 'development') {
-      // Usa 'connection' que é a instância Sequelize importada de connect.js
-      await connection.sync({ force: false })
-      console.log('✅ Modelos e tabelas sincronizadas!')
-    }
+    // 2. CONFIGURA ASSOCIAÇÕES (Modelos já foram inicializados pelo import de index.js)
+    setupAssociations()
+    console.log('✅ Modelos e associações carregadas.')
 
     // 3. Iniciar o servidor Express
     app.listen(PORT, () => {
       console.log(`🚀 Servidor rodando em http://localhost:${PORT}`)
       console.log(`⚙️ Ambiente: ${process.env.NODE_ENV || 'development'}`)
-      // console.log(`📄 Docs: http://localhost:${PORT}/docs`)
     })
   } catch (error) {
-    // O erro já está sendo tratado dentro de connectDatabase com process.exit(1),
-    // mas é bom ter esse bloco para outros erros de inicialização.
     console.error('❌ ERRO DURANTE A INICIALIZAÇÃO DA APLICAÇÃO:', error.message)
     process.exit(1)
   }
@@ -48,15 +43,12 @@ async function initializeApp() {
 initializeApp()
 
 // ⬇️ Tratamento de Erros de Baixo Nível (Boas Práticas)
-
-// Trata Exceções Síncronas Não Capturadas
 process.on('uncaughtException', (err) => {
   console.error('❌ UNCAUGHT EXCEPTION! Encerrando...')
   console.error(err.name, err.message, err.stack)
   process.exit(1)
 })
 
-// Trata Rejeições de Promises Não Capturadas
 process.on('unhandledRejection', (reason, promise) => {
   console.error('❌ UNHANDLED REJECTION! Encerrando...')
   console.error('Razão:', reason)

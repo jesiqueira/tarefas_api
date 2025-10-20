@@ -8,9 +8,9 @@
     "dev": "nodemon",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "migration:create": "npx sequelize-cli migration:create --config src/config/config.json --migrations-path src/migrations --name $npm_config_name",
-    "db:migrate": "npx sequelize-cli db:migrate --config src/config/config.json --migrations-path src/migrations",
-    "db:migrate:undo": "npx sequelize-cli db:migrate:undo --config src/config/config.json --migrations-path src/migrations",
+    "migration:create": "npx sequelize-cli migration:create --config src/config/config.mjs --migrations-path src/migrations --name $npm_config_name",
+    "db:migrate": "npx sequelize-cli db:migrate --config src/config/config.mjs --migrations-path src/migrations",
+    "db:migrate:undo": "npx sequelize-cli db:migrate:undo --config src/config/config.mjs --migrations-path src/migrations",
     "db:seed": "npx sequelize-cli db:seed:all"
   },
   "repository": {

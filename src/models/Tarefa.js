@@ -1,35 +1,16 @@
-import { DataTypes, Model } from 'sequelize'
-import sequelize from '../config/database.js'
+// src/models/Tarefa.js
+import { Model } from 'sequelize'
+import { TarefaSchema, TAREFA_TABLE_NAME } from './schemas/tarefa.schema.js'
 
-class Tarefa extends Model {}
-
-Tarefa.init(
-  {
-    id: {
-      type: DataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    titulo: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-    descricao: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-    },
-    status: {
-      type: DataTypes.ENUM('pendente', 'em andamento', 'concluida'),
-      defaultValue: 'pendente',
-    },
-  },
-  {
-    sequelize,
-    modelName: 'Tarefa',
-    tableName: 'tarefas',
-    // Ativa as colunas 'createdAt' e 'updatedAt'
-    timestamps: true,
-  },
-)
+class Tarefa extends Model {
+  static initialize(sequelize) {
+    Tarefa.init(TarefaSchema(sequelize.Sequelize), {
+      sequelize,
+      modelName: 'Tarefa',
+      tableName: TAREFA_TABLE_NAME,
+      timestamps: true,
+    })
+  }
+}
 
 export default Tarefa

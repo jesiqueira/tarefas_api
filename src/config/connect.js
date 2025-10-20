@@ -12,7 +12,7 @@ export async function connectDatabase() {
     // 💡 PASSA UM OBJETO DE OPÇÕES COM logging: false
     // Isso suprime o 'SELECT 1+1 AS result' desta chamada específica
     await connection.authenticate({ logging: false })
-    // console.log('✅ Conexão com o banco de dados estabelecida com sucesso.')
+    console.log('✅ Conexão com o banco de dados estabelecida com sucesso.')
   } catch (error) {
     console.error('❌ Não foi possível conectar ao banco de dados. Verifique suas credenciais no .env')
     // Loga o erro detalhado e encerra a aplicação

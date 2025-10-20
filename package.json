@@ -4,9 +4,15 @@
   "description": "Estudo e prática de código node.",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "start:dev": "nodemon index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "sequelize:init": "npx sequelize-cli init",
+    "migration:create": "npx sequelize-cli migration:create --config src/config/config.json --migrations-path src/migrations --name $npm_config_name",
+    "db:migrate": "npx sequelize-cli db:migrate --config src/config/config.json --migrations-path src/migrations",
+    "db:migrate:undo": "npx sequelize-cli db:migrate:undo --config src/config/config.json --migrations-path src/migrations",
+    "db:seed": "npx sequelize-cli db:seed:all"
   },
   "repository": {
     "type": "git",
@@ -21,14 +27,22 @@
   },
   "homepage": "https://github.com/jesiqueira/tarefas_api#readme",
   "devDependencies": {
-    "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.38.0",
-    "eslint": "^9.38.0",
+    "@eslint/eslintrc": "^1.0.1",
+    "@eslint/js": "^8.57.0",
+    "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
     "eslint-plugin-prettier": "^5.5.4",
     "globals": "^16.4.0",
-    "prettier": "^3.6.2"
+    "nodemon": "^3.1.10",
+    "prettier": "^3.6.2",
+    "sequelize-cli": "^6.6.3"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.3",
+    "pg": "^8.16.3",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.7"
   }
 }

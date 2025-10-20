@@ -59,6 +59,14 @@ export default [
       // FIM DOS AJUSTES PESSOAIS
     },
   },
+  // NOVO BLOCO [3.1]: Desativa 'no-underscore-dangle' especificamente para arquivos .mjs
+  // Isso resolve o aviso no .sequelizerc.mjs e mantém a regra forte no restante do código.
+  {
+    files: ['**/*.mjs'],
+    rules: {
+      'no-underscore-dangle': 'off',
+    },
+  },
 
   // 4. Integração Prettier (DEVE SER O ÚLTIMO ELEMENTO)
   // Desliga as regras de estilo do Airbnb e habilita a formatação do Prettier.

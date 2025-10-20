@@ -27,7 +27,8 @@ Tarefa.init(
     sequelize,
     modelName: 'Tarefa',
     tableName: 'tarefas',
-    timestamps: false,
+    // Ativa as colunas 'createdAt' e 'updatedAt'
+    timestamps: true,
   },
 )
 

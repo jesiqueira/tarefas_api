@@ -8,7 +8,6 @@
     "start:dev": "nodemon index.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
-    "sequelize:init": "npx sequelize-cli init",
     "migration:create": "npx sequelize-cli migration:create --config src/config/config.json --migrations-path src/migrations --name $npm_config_name",
     "db:migrate": "npx sequelize-cli db:migrate --config src/config/config.json --migrations-path src/migrations",
     "db:migrate:undo": "npx sequelize-cli db:migrate:undo --config src/config/config.json --migrations-path src/migrations",

@@ -223,3 +223,26 @@ A estrutura do projeto segue o princípio de Separação de Preocupações (SoC)
 ├── .sequelizerc                 # Configuração do Sequelize CLI (aponta para o config/database)
 └── SETUP.md                     # Este arquivo de documentação
 ```
+
+
+📚 Arquitetura da API: Fluxo de Dados (Model-Repository-Service-Controller)
+
+Esta estrutura de projeto é baseada no padrão MVC, com a adição de uma camada de Repositório e de Serviço, garantindo a separação de responsabilidades (SoC) e facilitando a manutenção e testes.
+
+📈 Fluxo da Requisição
+
+Este diagrama ilustra como uma requisição HTTP viaja através das camadas da aplicação e como a informação é processada:
+
+1. Fluxo de Entrada (Requisição)
+
+A requisição entra pelo Router e passa pelas camadas de Controle e Lógica, até atingir o banco de dados.
+
+$$\text{Cliente} \xrightarrow[\text{Verbo/Path}]{\text{Requisição HTTP}} \underbrace{\text{Routes}}_{\text{4. Mapeamento}} \xrightarrow{\text{5. Segurança}} \underbrace{\text{Middlewares}}_{\text{2. Autenticação}} \xrightarrow{\text{3. Extração}} \underbrace{\text{Controller}}_{\text{4. Delegação}} \xrightarrow{\text{Service}} \text{...}$$
+
+2. Fluxo de Execução e Retorno
+
+$$\text{...} \xrightarrow{\text{1. Regras}} \underbrace{\text{Service}}_{\text{2. Chamada CRUD}} \xrightarrow{\text{3. Consulta SQL}} \underbrace{\text{Repository}}_{\text{4. Definição do Schema}} \xrightarrow{\text{5. Dados}} \underbrace{\text{Model (DB)}}_{\text{...}}$$
+
+E o fluxo de retorno é o caminho inverso:
+
+$$\text{...} \xrightarrow{\text{Model}} \text{Repository} \xrightarrow{\text{Resultado}} \text{Service} \xrightarrow{\text{Resposta Formatada}} \text{Controller} \xrightarrow{\text{Status/Payload}} \text{Routes} \xrightarrow{\text{Resposta}} \text{Cliente}$$

@@ -1,5 +1,6 @@
 import express from 'express'
 import cors from 'cors'
+import usuarioRoutes from './routes/usuario.routes.mjs'
 // import swaggerUi from 'swagger-ui-express'
 // import YAML from 'yamljs'
 // import { fileURLToPath } from 'url'
@@ -33,10 +34,8 @@ app.use(express.json())
 // ⬇️ Rota de Documentação
 // app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
-// ⬇️ Importação e Uso das Rotas (NOTE: O '.js' é obrigatório para arquivos locais no ESM)
-// import usuarioRoutes from './routes/usuarioRoutes.js';
-
-// app.use('/api/usuarios', usuarioRoutes);
+// ⬇️ Importação e Uso das Rotas
+app.use('/api/usuarios', usuarioRoutes)
 
 // Boas Práticas: Middleware 404
 app.use((req, res, next) => {

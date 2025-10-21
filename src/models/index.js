@@ -28,4 +28,8 @@ export function setupAssociations() {
 setupAssociations()
 
 // Exporta os Models para serem usados na camada Service
-export { Usuario, Tarefa }
+export default {
+  Usuario,
+  Tarefa,
+  sequelize: connection,
+}

@@ -6,8 +6,8 @@ import 'dotenv/config'
 // 2. Importa a Aplicação Express
 import app from './app.js'
 
-// 3. Importa o Banco de Dados
-import { connectDatabase } from './config/connect.js'
+// 3. Importa o Banco de Dados (agora importamos o objeto 'db' que contém a conexão Sequelize)
+import db from './models/index.js'
 
 const PORT = process.env.PORT || 3000
 
@@ -16,16 +16,24 @@ const PORT = process.env.PORT || 3000
  */
 async function initializeApp() {
   try {
-    // 1. Conectar e testar o DB
-    await connectDatabase()
+    // 1. Conectar e testar o DB (Autentica a conexão usando a instância do Sequelize)
+    // db.sequelize é a instância que foi exportada do index.js
+    await db.sequelize.authenticate()
+    console.log('✅ Conexão com o banco de dados estabelecida com sucesso!')
 
-    // 2. Iniciar o servidor Express
+    // 2. Sincronizar os models (Cria/atualiza tabelas se não existirem)
+    // Use { alter: true } em desenvolvimento para refletir mudanças nos Models.
+    await db.sequelize.sync()
+    console.log('✅ Banco de dados sincronizado com sucesso!')
+
+    // 3. Iniciar o servidor Express
     app.listen(PORT, () => {
       console.log(`🚀 Servidor rodando em http://localhost:${PORT}`)
       console.log(`⚙️ Ambiente: ${process.env.NODE_ENV || 'development'}`)
     })
   } catch (error) {
-    console.error('❌ ERRO DURANTE A INICIALIZAÇÃO DA APLICAÇÃO:', error.message)
+    // O erro aqui captura falhas de autenticação (authenticate) ou sincronização (sync)
+    console.error('❌ ERRO DURANTE A INICIALIZAÇÃO DA APLICAÇÃO. Verifique o DB:', error.message)
     process.exit(1)
   }
 }

@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import usuarioRoutes from './routes/usuario.routes.mjs'
+import tarefaRoutes from './routes/tarefa.routes.mjs'
 // import swaggerUi from 'swagger-ui-express'
 // import YAML from 'yamljs'
 // import { fileURLToPath } from 'url'
@@ -36,6 +37,7 @@ app.use(express.json())
 
 // ⬇️ Importação e Uso das Rotas
 app.use('/api/usuarios', usuarioRoutes)
+app.use('/api/tarefas', tarefaRoutes)
 
 // Boas Práticas: Middleware 404
 app.use((req, res, next) => {

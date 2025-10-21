@@ -1,23 +1,32 @@
-import { Usuario } from '../models/index.js'
+// src/repositories/UsuarioRepository.mjs
+
+// Importa o objeto central 'db' que contém todos os Models e a conexão
+import db from '../models/index.js'
 
 /**
  * @class UsuarioRepository
  * * Responsável pela comunicação direta com o banco de dados
  * através do Model Usuario do Sequelize.
- * * Abstrai operações de CRUD básicas (Create, Read, Update, Delete)
- * e retorna dados prontos para a camada Service.
+ * * Abstrai operações de CRUD básicas (Create, Read, Update, Delete).
  */
 
 class UsuarioRepository {
+  /**
+   * Construtor para Injeção de Dependência.
+   * Em produção, usa db.Usuario; em testes, aceita um Model mockado.
+   */
+  constructor(model = db.Usuario) {
+    this.model = model
+  }
+
   /**
    * Cria um novo registro de usuário no banco de dados.
    * @param {Object} userData - Dados do usuário a serem criados.
    * @returns {Promise<Usuario>} O objeto Model do Sequelize recém-criado.
    */
-
   async create(userData) {
-    // Apenas chama o método create do Sequelize
-    return Usuario.create(userData)
+    // Usa this.model (o Model injetado)
+    return this.model.create(userData)
   }
 
   /**
@@ -26,7 +35,7 @@ class UsuarioRepository {
    * @returns {Promise<Usuario|null>} O objeto Model do Sequelize, ou null se não encontrado.
    */
   async findById(id) {
-    return Usuario.findByPk(id)
+    return this.model.findByPk(id)
   }
 
   /**
@@ -35,7 +44,7 @@ class UsuarioRepository {
    * @returns {Promise<Usuario|null>} O objeto Model do Sequelize, ou null se não encontrado.
    */
   async findByEmail(email) {
-    return Usuario.findOne({ where: { email } })
+    return this.model.findOne({ where: { email } })
   }
 
   /**
@@ -43,7 +52,7 @@ class UsuarioRepository {
    * @returns {Promise<Usuario[]>} Array de objetos Model do Sequelize.
    */
   async findAll() {
-    return Usuario.findAll()
+    return this.model.findAll()
   }
 
   /**
@@ -53,7 +62,7 @@ class UsuarioRepository {
    * @returns {Promise<number>} Número de registros atualizados (0 ou 1).
    */
   async update(id, updateData) {
-    return Usuario.update(updateData, { where: { id } })
+    return this.model.update(updateData, { where: { id } })
   }
 
   /**
@@ -62,10 +71,9 @@ class UsuarioRepository {
    * @returns {Promise<number>} Número de registros deletados (0 ou 1).
    */
   async delete(id) {
-    return Usuario.destroy({ where: { id } })
+    return this.model.destroy({ where: { id } })
   }
 }
 
 // Exporta uma instância da classe para ser usada como Singleton
-// (garantindo que não criamos múltiplas instâncias desnecessárias)
 export default new UsuarioRepository()

@@ -192,3 +192,34 @@ npm install --save-dev --force \
   eslint-config-prettier \
   eslint-plugin-prettier
 ```
+
+
+## Configuração Padrão de Projeto Node.js (ES Modules, Express, Sequelize)
+Este guia resume a estrutura de pastas, a responsabilidade de cada arquivo e a configuração inicial de qualidade de código (ESLint, Airbnb e Prettier).
+
+## Estrutura de Diretórios e Responsabilidades
+A estrutura do projeto segue o princípio de Separação de Preocupações (SoC), onde cada pasta tem uma responsabilidade específica (Configuração, Dados, Lógica de Negócio).
+
+
+```
+.
+├── src/
+│   ├── config/
+│   │   ├── config.mjs           # Configuração de Ambientes (DEV/PROD/TEST) para o Sequelize CLI
+│   │   ├── connect.mjs          # FUNÇÃO: Cria e estabelece a conexão com o banco de dados (Sequelize)
+│   │   └── database.mjs         # INSTÂNCIA: Contém a instância do Sequelize (o objeto 'sequelize')
+│   ├── migrations/
+│   │   └── <timestamp>-....js   # Versões do esquema de banco de dados (CREATE/ALTER TABLES)
+│   ├── models/
+│   │   ├── schemas/             # Onde as colunas e tipos de dados são definidos
+│   │   │   ├── usuario.schema.js# Definição do ENUM e colunas da tabela 'usuarios'
+│   │   │   └── tarefa.schema.js # Definição do ENUM e colunas da tabela 'tarefas'
+│   │   ├── index.mjs            # Orquestrador: Carrega e inicializa todos os Models
+│   │   ├── Usuario.mjs          # Model do Sequelize para a tabela 'usuarios'
+│   │   └── Tarefa.mjs           # Model do Sequelize para a tabela 'tarefas'
+│   ├── app.mjs                  # Módulo principal do Express: Define middlewares e importa as rotas
+│   └── server.js                # Ponto de entrada: Inicializa o DB e inicia a escuta do servidor
+├── .env                         # Variáveis de ambiente (credenciais de DB, porta do servidor, etc.)
+├── .sequelizerc                 # Configuração do Sequelize CLI (aponta para o config/database)
+└── SETUP.md                     # Este arquivo de documentação
+```

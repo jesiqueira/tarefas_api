@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename)
 // O CLI é executado usando a flag --module, o que permite o uso de sintaxe ESM aqui.
 export default {
   // 1. Onde está o arquivo de configuração de ambientes
-  config: path.resolve(__dirname, 'src', 'config', 'config.json'),
+  config: path.resolve(__dirname, 'src', 'config', 'config.mjs'),
 
   // 2. Onde as pastas de desenvolvimento devem ser criadas
   'models-path': path.resolve(__dirname, 'src', 'models'),

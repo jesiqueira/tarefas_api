@@ -28,6 +28,17 @@ export default [
       sourceType: 'module',
     },
     rules: {
+      // 🚨 NOVO AJUSTE CRÍTICO PARA ES MODULES NO NODE.JS
+      // O Node exige a extensão .js para imports locais, mas o Airbnb não gosta.
+      // Desabilitamos a verificação para os imports JS/MJS.
+      'import/extensions': [
+        'error',
+        'ignorePackages',
+        {
+          js: 'always', // Permite (e espera) a extensão .js para arquivos locais
+          mjs: 'always', // Permite (e espera) a extensão .mjs
+        },
+      ],
       // AJUSTES DE DEPENDÊNCIAS
       'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
 
